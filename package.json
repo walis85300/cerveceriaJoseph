@@ -1,0 +1,17 @@
+{
+  "name": "cerveceriaJoseph",
+  "version": "1.0.0",
+  "description": "Automatizacion de procesos en la fabricación de cerveza",
+  "main": "index.js",
+  "scripts": {
+    "test": "node"
+  },
+  "keywords": [
+    "raspi",
+    "nodejs",
+    "cylon",
+    "automatizacion"
+  ],
+  "author": "walis85300",
+  "license": "MIT"
+}
