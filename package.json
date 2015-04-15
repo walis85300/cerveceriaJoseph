@@ -4,8 +4,8 @@
   "description": "Automatizacion de procesos en la fabricación de cerveza",
   "main": "index.js",
   "scripts": {
-    "test": "start",
-    "start": "iojs server.js"
+    "test": "node",
+    "start": "node server.js"
   },
   "keywords": [
     "raspi",
