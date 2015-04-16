@@ -1,7 +1,6 @@
 
 module.exports = function(app){
 
-
     app.get('/', function(res, res){
     	res.render('home');
     });
@@ -18,7 +17,7 @@ module.exports = function(app){
     	res.render('test');
     });
 
-    require('../ledControl/led.js')(app);
+    // require('../ledControl/led.js')(app);
 
     app.use(function(req, res, next){
     	res.status(404);
