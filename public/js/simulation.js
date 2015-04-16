@@ -170,5 +170,6 @@ var interval = setInterval(function(){
 $('#iniciar').on('click', function(){
     $(this).addClass('disabled');
     $.get('/api/maceracion/on');
+    $('#nmaceracionContainer p').removeClass('bg-info').addClass('bg-success');
     encendido = 1;
 });
