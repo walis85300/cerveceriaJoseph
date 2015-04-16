@@ -21,6 +21,7 @@ var interval = setInterval(function(){
 
     if (encendido === 1){
 
+
         //PROCESO 1: MACERACION (ON){
 
         //Se vierte el agua dentro del tanque de maceracion
@@ -30,6 +31,9 @@ var interval = setInterval(function(){
                 nmaceracion = nmaceracion + 0.8;
             } else {
                 enviar_agua = 0;
+                $.get('/api/maceracion/on', function(data){
+                    console.log(data);
+                });
             }
         }
 
