@@ -55,10 +55,6 @@ var interval = setInterval(function(){
             console.log('tanque maceracion lleno');
             console.log('empieza hervido');
             nmaceracion_activo = 1;
-            // $.get('/api/maceracion/off', function(data){
-            //     console.log(data);
-            //
-            // });
             terminoPrimerProceso = 0;
         } else if(terminoPrimerProceso===1) {
             $('#nagua_max').css('width', (nagua / 80 * 100) + '%');
@@ -76,6 +72,12 @@ var interval = setInterval(function(){
                 //Ya se hirvió la primera mezcla
                 nmaceracion_activo = 0;
                 enviar_maceracion = 1;
+                $.get('/api/maceracion/off', function(data){
+                    console.log(data);
+                });
+                $.get('/api/filtrado1/on', function(data){
+                    console.log(data);
+                });
                 console.log('termino hervido de maceracion');
                 console.log('comienza envio de maceracion a filtrado');
             }
@@ -108,6 +110,12 @@ var interval = setInterval(function(){
                 //Terminó el primer filtrado
                 nfiltrado_activo = 0;
                 enviar_filtrado = 1;
+                $.get('/api/filtrado1/off', function(data){
+                    console.log(data);
+                });
+                $.get('/api/hervido/on', function(data){
+                    console.log(data);
+                });
             }
         }
 
@@ -147,6 +155,9 @@ var interval = setInterval(function(){
             } else {
                 //Ya terminó de hervir
                 nhervido_activo = 0;
+                $.get('/api/hervido/off', function(data){
+                    console.log(data);
+                });
             }
         }
 
@@ -158,6 +169,6 @@ var interval = setInterval(function(){
 
 $('#iniciar').on('click', function(){
     $(this).addClass('disabled');
-    // $.get('/api/maceracion/on');
+    $.get('/api/maceracion/on');
     encendido = 1;
 });
