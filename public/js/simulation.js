@@ -8,6 +8,8 @@ var nmaceracion = 0,
     nfiltrado = 0,
     nhervido = 0;
 
+var terminoPrimerProceso = 1;
+
 var encendido = 0,
     nmaceracion_activo = 0,
     nfiltrado_activo = 0,
@@ -21,7 +23,6 @@ var interval = setInterval(function(){
 
     if (encendido === 1){
 
-
         //PROCESO 1: MACERACION (ON){
 
         //Se vierte el agua dentro del tanque de maceracion
@@ -29,11 +30,11 @@ var interval = setInterval(function(){
             if (nagua > 0.1){
                 nagua = nagua - 0.8;
                 nmaceracion = nmaceracion + 0.8;
+                $('#nmaceracion').css('width', (nmaceracion / 90 * 100) + '%');
             } else {
                 enviar_agua = 0;
-                $.get('/api/maceracion/off', function(data){
-                    console.log(data);
-                });
+                console.log('no mas agua');
+
             }
         }
 
@@ -42,17 +43,24 @@ var interval = setInterval(function(){
             if (nmalta > 0.1) {
                 nmalta = nmalta - 0.1;
                 nmaceracion = nmaceracion + 0.1;
+                $('#nmaceracion').css('width', (nmaceracion / 90 * 100) + '%');
             } else {
                 enviar_malta = 0;
+                console.log('no mas malta');
             }
         }
 
-        if (enviar_agua===0 && enviar_malta===0) {
+        if ((enviar_agua === 0 || enviar_malta === 0) && terminoPrimerProceso === 1) {
             //Ya se virtió toda el agua y la malta
             console.log('tanque maceracion lleno');
             console.log('empieza hervido');
             nmaceracion_activo = 1;
-        } else {
+            // $.get('/api/maceracion/off', function(data){
+            //     console.log(data);
+            //
+            // });
+            terminoPrimerProceso = 0;
+        } else if(terminoPrimerProceso===1) {
             $('#nagua_max').css('width', (nagua / 80 * 100) + '%');
             $('#nmalta_max').css('width', (nmalta * 10 ) + '%');
         }
@@ -62,6 +70,7 @@ var interval = setInterval(function(){
             if (nmaceracion_hervido > 1.5) {
                 nmaceracion = nmaceracion -
                     (nmaceracion * 0.0001);
+                $('#nmaceracion').css('width', (nmaceracion / 90 * 100) + '%');
                 nmaceracion_hervido = nmaceracion_hervido - 1.5;
             } else {
                 //Ya se hirvió la primera mezcla
@@ -79,7 +88,9 @@ var interval = setInterval(function(){
         if (enviar_maceracion === 1) {
             if (nmaceracion > 1.5) {
                 nfiltrado = nfiltrado + 0.8;
+                $('#nfiltrado').css('width', (nfiltrado / 90 * 100) + '%');
                 nmaceracion = nmaceracion - 0.8;
+                $('#nmaceracion').css('width', (nmaceracion / 90 * 100) + '%');
             } else {
                 //Se terminó de trasladar la maceración para el filtrado
                 enviar_maceracion = 0;
@@ -91,6 +102,7 @@ var interval = setInterval(function(){
         if (nfiltrado_activo === 1) {
             if (proceso_filtrar > 0) {
                 nfiltrado = nfiltrado - (nfiltrado * 0.00035);
+                $('#nfiltrado').css('width', (nfiltrado / 90 * 100) + '%');
                 proceso_filtrar = proceso_filtrar - 1;
             } else {
                 //Terminó el primer filtrado
@@ -139,13 +151,13 @@ var interval = setInterval(function(){
         }
 
     }
-},200);
+},100);
 
 
 
 
 $('#iniciar').on('click', function(){
     $(this).addClass('disabled');
-    $.get('/api/maceracion/on');
+    // $.get('/api/maceracion/on');
     encendido = 1;
 });
