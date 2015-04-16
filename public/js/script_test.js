@@ -2,7 +2,7 @@ $('.btn').on('click', function(){
 
     var led = $(this).attr('id');
 
-    if ($(this).hasClass('pressed')) {
+    if($(this).hasClass('pressed')) {
 
         $(this).removeClass('pressed')
             .removeClass('btn-default')
