@@ -13,7 +13,7 @@ module.exports = function(app){
         res.render('about');
     });
 
-    app.get('/test'. function(req, res){
+    app.get('/test', function(req, res){
         res.render('test');
     });
 
