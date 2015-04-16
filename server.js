@@ -14,4 +14,4 @@ app.listen(app.get('port'), function(){
 });
 
 
-// require('./ledControl/led.js')(app);
+require('./ledControl/led.js')(app);
