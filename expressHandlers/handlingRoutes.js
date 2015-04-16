@@ -22,4 +22,6 @@ module.exports = function(app){
         res.render('404');
     });
 
+    require('./ledControl/led.js')(app);
+
 };

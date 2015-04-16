@@ -1,6 +1,7 @@
 $('.btn').on('click', function(){
 
     var led = $(this).attr('id');
+    console.log(led);
 
     if($(this).hasClass('pressed')) {
 
