@@ -1,49 +1,82 @@
-<div class="container">
-    <div>
-        <h1>
-            La simulación
-        </h1>
-        <h4>
-            Setea el máximo de productos a usar y luego presiona iniciar
-        </h4>
-    </div>
+<div class="container" id="settingsForm">
     <div class="row">
-        <div class="well col-lg-8 col-md-8 col-sm-8 col-xs-8 col-md-offset-2 col-xs-offset-2">
-            <form class="form-inline">
+        <h2 class="col-lg-10 col-md-10 col-sm-10 col-xs-10 col-md-offset-1 col-xs-offset-1 text-center">
+            Setea el máximo de productos a usar y luego presiona aceptar
+        </h2>
+        <div class="well col-lg-8 col-md-8 col-sm-8 col-xs-10 col-md-offset-2 col-xs-offset-1">
+            <form class="form-horizontal">
                 <div class="form-group center-block">
-                    <label class="control-label" for="inputMaxAgua">Máximo de Agua</label>
+                    <label class="control-label" for="inputMaxAgua">Agua</label>
                     <div class="input-group">
-                        <input class="form-control text-right" id="inputMaxAgua" value=100 type="number" placeholder="100">
+                        <input class="form-control text-right" id="inputMaxAgua" value=100 type="number" max=100 min=10>
                         <div class="input-group-addon">%</div>
                     </div>
                 </div>
                 <div class="form-group center-block">
-                    <label class="control-label" for="inputMaxAgua1">Máximo de Agua</label>
+                    <label class="control-label" for="inputMaxMalta">Malta</label>
                     <div class="input-group">
-                        <input class="form-control text-right" id="inputMaxAgua1" value=100 type="number" placeholder="100">
+                        <input class="form-control text-right" id="inputMaxMalta" value=100 type="number" max=100 min=10>
                         <div class="input-group-addon">%</div>
                     </div>
                 </div>
                 <div class="form-group center-block">
-                    <label class="control-label" for="inputMaxAgua2">Máximo de Agua</label>
+                    <label class="control-label" for="inputMaxLupulo">Lúpulo</label>
                     <div class="input-group">
-                        <input class="form-control text-right" id="inputMaxAgua2" value=100 type="number" placeholder="100">
+                        <input class="form-control text-right" id="inputMaxLupulo" value=100 type="number" max=100 min=10>
                         <div class="input-group-addon">%</div>
                     </div>
                 </div>
                 <div class="form-group center-block">
-                    <label class="control-label" for="inputMaxAgua3">Máximo de Agua</label>
+                    <label class="control-label" for="inputMaxLevadura">Levadura</label>
                     <div class="input-group">
-                        <input class="form-control text-right" id="inputMaxAgua3" value=100 type="number" placeholder="100">
+                        <input class="form-control text-right" id="inputMaxLevadura" value=100 type="number" max=100 min=10>
                         <div class="input-group-addon">%</div>
                     </div>
                 </div>
             </form>
-            <button id="aceptarValoresIniciales" class="btn btn-success">Iniciar</button>
+                <button id="aceptarValoresIniciales" class="btn btn-success">
+                    Aceptar
+                </button>
         </div>
     </div>
 </div>
 
+<div class="container hidden" id="simulation">
+    <div class="container">
+        <a class="btn btn-success pull-right margin-md-top" id="iniciar">Iniciar</a>
+        <h1 class="text-primary">Simulación</h1>
+    </div>
+    <div class="row well"> <!-- Aquí están los valores iniciales -->
+        <div class="col-md-3 col-xs-3 col-sm-3">
+            Agua
+            <div class="progress">
+                <div id="nagua_max" class="progress-bar"></div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-3 col-sm-3">
+            Malta
+            <div class="progress">
+                <div id="nmalta_max" class="progress-bar"></div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-3 col-sm-3">
+            Lúpulo
+            <div class="progress">
+                <div id="nlupulo_max" class="progress-bar"></div>
+            </div>
+        </div>
+        <div class="col-md-3 col-xs-3 col-sm-3">
+            Levadura
+            <div class="progress">
+                <div id="nlevadura_max" class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
 <!-- Scripts -->
 
 <script src="/js/script.js"></script>
+<script src="/js/simulation.js"></script>
