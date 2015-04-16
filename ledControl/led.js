@@ -23,7 +23,7 @@ Cylon.robot({
 
 			app.route('/api/:led/:position').get(function(req, res, next){
 				var led = req.params.led,
-				pos = req.params.position;
+					pos = req.params.position;
 
 				console.log(led);
 				console.log(pos);
@@ -72,4 +72,3 @@ Cylon.robot({
 
 	}).start();
 };
-

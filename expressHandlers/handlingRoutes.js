@@ -22,6 +22,13 @@ module.exports = function(app){
         res.render('404');
     });
 
-    require('../ledControl/led.js')(app);
+    app.route('/api/:led/:pos').get(function(req, res, next){
+        console.log(req.params.led);
+        console.log(req.params.pos);
+
+        res.sendStatus(200);
+    });
+
+    // require('../ledControl/led.js')(app);
 
 };
