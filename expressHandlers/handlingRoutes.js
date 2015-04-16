@@ -25,11 +25,13 @@ module.exports = function(app){
     	res.sendStatus(200);
     });
 
+    require('../ledControl/led.js')(app);
+
     app.use(function(req, res, next){
     	res.status(404);
     	res.render('404');
     });
 
-    // require('../ledControl/led.js')(app);
+
 
 };
