@@ -22,4 +22,8 @@ $('#aceptarValoresIniciales').on('click', function(){
     $('#settingsForm').addClass('hidden');
     $('#simulation').removeClass('hidden');
 
+    $.get('/api/all/off', function(data){
+        console.log(data);
+    });
+
 });
