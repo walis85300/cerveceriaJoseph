@@ -15,6 +15,7 @@ $('#aceptarValoresIniciales').on('click', function(){
 
     nagua     =       (nagua_max / 100) * 80; //porque el máx de agua es 80
     nmalta    =      (nmalta_max / 100) * 10; //porque el máx de malta es 10
+
     nlupulo   =   (nlupulo_max / 100) * 2.00; //porque el máx de lupulo es 2.00
     nlevadura = (nlevadura_max / 100) * 3.00; //porque el máx de levadura el 3.00
 

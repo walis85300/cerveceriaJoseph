@@ -31,7 +31,7 @@ var interval = setInterval(function(){
                 nmaceracion = nmaceracion + 0.8;
             } else {
                 enviar_agua = 0;
-                $.get('/api/maceracion/on', function(data){
+                $.get('/api/maceracion/off', function(data){
                     console.log(data);
                 });
             }
@@ -146,5 +146,6 @@ var interval = setInterval(function(){
 
 $('#iniciar').on('click', function(){
     $(this).addClass('disabled');
+    $.get('/api/maceracion/on');
     encendido = 1;
 });
