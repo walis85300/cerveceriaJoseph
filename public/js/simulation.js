@@ -316,7 +316,7 @@ var interval = setInterval(function(){
             $('#nfermentacion_maduracionContainer p').removeClass('bg-success').addClass('bg-danger');
             $('#nfiltradoFinalContainer p').removeClass('bg-info').addClass('bg-success');
 
-            $.get('/api/enfriamiento/off', function(data){
+            $.get('/api/ferme_madu/off', function(data){
               console.log(data);
             });
             $.get('/api/filtrado2/on', function(data){
