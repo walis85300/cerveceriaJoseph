@@ -5,3 +5,8 @@
 .margin-left{
     margin-left: 2rem !important;
 }
+
+.margin-lg-top{
+    padding-top: 5rem !important;
+    border-top: solid grey 1px;
+}

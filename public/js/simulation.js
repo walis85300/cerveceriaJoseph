@@ -51,8 +51,7 @@ var interval = setInterval(function(){
                 $('#nmaceracion').css('width', (nmaceracion / 90 * 100) + '%');
             } else {
                 enviar_agua = 0;
-                console.log('no mas agua');
-
+                toastr["success"]("Se virtió toda el agua");
             }
         }
 
@@ -64,7 +63,7 @@ var interval = setInterval(function(){
                 $('#nmaceracion').css('width', (nmaceracion / 90 * 100) + '%');
             } else {
                 enviar_malta = 0;
-                console.log('no mas malta');
+                toastr["success"]("Se virtió toda la malta");
             }
         }
 
@@ -98,8 +97,8 @@ var interval = setInterval(function(){
                 $.get('/api/filtrado1/on', function(data){
                     console.log(data);
                 });
-                console.log('termino hervido de maceracion');
-                console.log('comienza envio de maceracion a filtrado');
+                toastr["success"]("Terminó hervido de maceración");
+                toastr["info"]("Comienza envió de maceración a filtrado");
             }
         }
         //MACERACION (OFF)
@@ -115,6 +114,7 @@ var interval = setInterval(function(){
                 $('#nmaceracion').css('width', (nmaceracion / 90 * 100) + '%');
             } else {
                 //Se terminó de trasladar la maceración para el filtrado
+                toastr["success"]("Se terminó de enviar la maceración");
                 enviar_maceracion = 0;
                 nfiltrado_activo = 1;
             }
@@ -130,6 +130,8 @@ var interval = setInterval(function(){
                 //Terminó el primer filtrado
                 nfiltrado_activo = 0;
                 enviar_filtrado = 1;
+                toastr["success"]("Se terminó el primer filtrado");
+                toastr["info"]("Comienza envío de maceración filtrada a vertido de lúpulo");
                 $('#nfiltradoContainer p').removeClass('bg-success').addClass('bg-danger');
                 $('#nhervidoContainer p').removeClass('bg-info').addClass('bg-success');
                 $.get('/api/filtrado1/off', function(data){
@@ -154,6 +156,8 @@ var interval = setInterval(function(){
                 $('#nhervido').css('width', (nhervido / 90 * 100) + '%');
             } else {
                 //Termino el envió se activa el vertido de lúpulos
+                toastr["success"]("Terminó envío de filtrado");
+                toastr["info"]("Comienza vertido de lúpulos");
                 enviar_filtrado = 0;
                 enviar_lupulos = 1;
             }
@@ -169,6 +173,8 @@ var interval = setInterval(function(){
 
             } else {
                 //se terminó de verter el lúpulo se hierve la mezcla
+                toastr["success"]("Se terminó de verter el lúpulo");
+                toastr["info"]("Comienza el hervido");
                 enviar_lupulos = 0;
                 nhervido_activo = 1;
             }
@@ -184,6 +190,8 @@ var interval = setInterval(function(){
                 //Ya terminó de hervir
                 nhervido_activo = 0;
                 ncentrifugado_activo = 1;
+                toastr["success"]("Finalizó el hervido");
+                toastr["info"]("Comienza hervido a centrifugado");
                 $('#nhervidoContainer p').removeClass('bg-success').addClass('bg-danger');
                 $('#ncentrifugadoContainer p').removeClass('bg-info').addClass('bg-success');
 
@@ -201,19 +209,19 @@ var interval = setInterval(function(){
             if (nhervido > 0) {
                 nhervido = nhervido - 0.7;
                 ncentrifugado = ncentrifugado + 0.7;
-                console.log(nhervido);
                 $('#nhervido').css('width', (nhervido / 90 * 100) + '%');
                 $('#ncentrifugado').css('width', (ncentrifugado / 90 * 100) + '%');
              //Se extraen los granos
              }else if(ncentri_eliminar_grano > 0){
                 ncentrifugado = ncentrifugado - ncentrifugado *0.00035;
                 ncentri_eliminar_grano = ncentri_eliminar_grano - ncentrifugado *0.00035;
-                console.log(ncentri_eliminar_grano);
              }
              //Se termina el proceso
             if(!(nhervido > 0) && !(ncentri_eliminar_grano > 0)){
               ncentrifugado_activo = 0;
               enviar_centrifugado = 1;
+              toastr["success"]("Se terminó el centrifugado");
+              toastr["info"]("Comienza envío para enfriamiento");
               $('#ncentrifugadoContainer p').removeClass('bg-success').addClass('bg-danger');
               $('#nenfriamientoContainer p').removeClass('bg-info').addClass('bg-success');
 
@@ -243,6 +251,8 @@ var interval = setInterval(function(){
             } else {
                 enviar_centrifugado = 0;
                 enviar_levadura = 1;
+                toastr["success"]("Terminó envío");
+                toastr["info"]("Comienza vertido de levadura");
             }
         }
 
@@ -257,6 +267,8 @@ var interval = setInterval(function(){
             } else {
                 enviar_levadura = 0;
                 nenfriamiento_activo = 1;
+                toastr["success"]("Se virtió la levadura");
+                toastr["info"]("Comienza enfriamiento");
             }
         }
 
@@ -277,8 +289,8 @@ var interval = setInterval(function(){
 
                 $('#nenfriamientoContainer p').removeClass('bg-success').addClass('bg-danger');
                 $('#nfermentacion_maduracionContainer p').removeClass('bg-info').addClass('bg-success');
-
-                console.log("Inicia el proceso de fermentación y maduración");
+                toastr["success"]("Terminó enfriamiento");
+                toastr["info"]("Comienza envío para fermentación y maduración");
             }
         }
 
@@ -297,7 +309,8 @@ var interval = setInterval(function(){
           }
           //Finalizan ambos procesos
           if(!(ncentrifugado > 0) && !(proceso_fermentacion_maduracion > 0)){
-
+            toastr["success"]("Se fermentó y maduró, ya casi es cerveza");
+            toastr["info"]("Comienza filtrado final");
             nfermentacion_maceracion_activo = 0;
             nfiltrado_final_activo = 1;
             $('#nfermentacion_maduracionContainer p').removeClass('bg-success').addClass('bg-danger');
@@ -342,7 +355,7 @@ var interval = setInterval(function(){
             $.get('/api/all/on', function(data){
               console.log(data);
             });
-            console.log("Ha acabado el proceso");
+            toastr["success"]("Ya tenemos cerveza");
           }
         }
         //Fin proceso de filtrado final
@@ -359,7 +372,7 @@ var interval = setInterval(function(){
         //Fin proceso de proceso de traslado
 
     }
-},50);
+},100);
 
 
 
