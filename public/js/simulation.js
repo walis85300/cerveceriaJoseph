@@ -78,7 +78,7 @@ var interval = setInterval(function(){
                 nmaceracion_activo = 0;
                 enviar_maceracion = 1;
                 $('#nmaceracionContainer p').removeClass('bg-success').addClass('bg-danger');
-                $('#nfiltradoContainer p').removeClass('bg-info').addClass('bg-succes');
+                $('#nfiltradoContainer p').removeClass('bg-info').addClass('bg-success');
                 $.get('/api/maceracion/off', function(data){
                     console.log(data);
                 });
@@ -117,8 +117,8 @@ var interval = setInterval(function(){
                 //Terminó el primer filtrado
                 nfiltrado_activo = 0;
                 enviar_filtrado = 1;
-                $('#nfiltradoContainer p').removeClass('bg-succes').addClass('bg-danger');
-                $('#nhervidoContainer p').removeClass('bg-info').addClass('bg-succes');
+                $('#nfiltradoContainer p').removeClass('bg-success').addClass('bg-danger');
+                $('#nhervidoContainer p').removeClass('bg-info').addClass('bg-success');
                 $.get('/api/filtrado1/off', function(data){
                     console.log(data);
                 });
@@ -148,12 +148,12 @@ var interval = setInterval(function(){
 
         //Se vierten los lúpulos a la mezcla
         if (enviar_lupulos === 1) {
-            if (nlupulo > 0.5){
-                nlupulo = nlupulo - 0.005;
+            if (nlupulo > 0.02){
+                nlupulo = nlupulo - 0.01;
                 nhervido = nhervido + 0.01;
-                $('#nlupulo_max').css('width', (nlupulo / 90 * 100) + '%');
-                $('#nhervido').css('width', (nhervido / 90 * 100) + '%');
-                console.log(nlupulo);
+                $('#nlupulo').css('width', (nhervido / 92 * 100) + '%');
+                $('#nlupulo_max').css('width', (nlupulo / 2 * 100) + '%');
+
             } else {
                 //se terminó de verter el lúpulo se hierve la mezcla
                 enviar_lupulos = 0;
@@ -166,13 +166,13 @@ var interval = setInterval(function(){
             if (nhervido_hervido > 0) {
                 nhervido_hervido = nhervido_hervido - 1;
                 nhervido = nhervido - (nhervido * 0.00035);
-                $('#nhervido').css('width', (nhervido / 90 * 100) + '%');
+                $('#nlupulo').css('width', (nhervido / 92 * 100) + '%');
             } else {
                 //Ya terminó de hervir
                 nhervido_activo = 0;
                 ncentrifugado_activo = 1;
-                $('#nhervidoContainer p').removeClass('bg-succes').addClass('bg-danger');
-                $('#ncentrifugadoContainer p').removeClass('bg-info').addClass('bg-succes');
+                $('#nhervidoContainer p').removeClass('bg-success').addClass('bg-danger');
+                $('#ncentrifugadoContainer p').removeClass('bg-info').addClass('bg-success');
 
                 $.get('/api/hervido/off', function(data){
                     console.log(data);
@@ -199,8 +199,8 @@ var interval = setInterval(function(){
               console.log("HOLA");
               ncentrifugado_activo = 0;
 
-              $('#ncentrifugadoContainer p').removeClass('bg-succes').addClass('bg-danger');
-              $('#nenfriamientoContainer p').removeClass('bg-info').addClass('bg-succes');
+              $('#ncentrifugadoContainer p').removeClass('bg-success').addClass('bg-danger');
+              $('#nenfriamientoContainer p').removeClass('bg-info').addClass('bg-success');
 
 
               $.get('/api/centrifugado/off', function(data){
@@ -216,7 +216,7 @@ var interval = setInterval(function(){
 
 
     }
-},100);
+},10);
 
 
 
