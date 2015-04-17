@@ -17,9 +17,8 @@ module.exports = function(app){
     	res.render('test');
     });
 
-//    require('../ledControl/led.js')(app);
-
-
+    require('../ledControl/led.js')(app);
+    
     app.use(function(req, res, next){
     	res.status(404);
     	res.render('404');
