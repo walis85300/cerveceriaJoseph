@@ -2,8 +2,13 @@ var enviar_agua = 1,
     enviar_malta = 1,
     enviar_maceracion = 0,
     enviar_filtrado = 0,
+<<<<<<< HEAD
     enviar_lupulos = 0;
     enviar_centrifugado = 0;
+=======
+    enviar_lupulos = 0,
+    enviar_aCentrifugar = 0;
+>>>>>>> def5c25a308b52030858274d9eacae813c6240a5
 
 var nmaceracion = 0,
     nfiltrado = 0,
@@ -19,10 +24,15 @@ var encendido = 0,
 
 var nmaceracion_hervido = 100,
     proceso_filtrar = 100,
+<<<<<<< HEAD
     nhervido_hervido = 100;
     ncentrifugado_activo = 0;
     ncentri_eliminar_grano = 10;
 
+=======
+    nhervido_hervido = 100,
+    ncentrifugado_activo = 100;
+>>>>>>> def5c25a308b52030858274d9eacae813c6240a5
 
 var interval = setInterval(function(){
 
@@ -38,8 +48,6 @@ var interval = setInterval(function(){
                 $('#nmaceracion').css('width', (nmaceracion / 90 * 100) + '%');
             } else {
                 enviar_agua = 0;
-                console.log('no mas agua');
-
             }
         }
 
@@ -51,14 +59,11 @@ var interval = setInterval(function(){
                 $('#nmaceracion').css('width', (nmaceracion / 90 * 100) + '%');
             } else {
                 enviar_malta = 0;
-                console.log('no mas malta');
             }
         }
 
-        if ((enviar_agua === 0 || enviar_malta === 0) && terminoPrimerProceso === 1) {
+        if ((enviar_agua === 0 && enviar_malta === 0) && terminoPrimerProceso === 1) {
             //Ya se virtió toda el agua y la malta
-            console.log('tanque maceracion lleno');
-            console.log('empieza hervido');
             nmaceracion_activo = 1;
             terminoPrimerProceso = 0;
         } else if(terminoPrimerProceso===1) {
@@ -80,20 +85,18 @@ var interval = setInterval(function(){
                 $('#nmaceracionContainer p').removeClass('bg-success').addClass('bg-danger');
                 $('#nfiltradoContainer p').removeClass('bg-info').addClass('bg-succes');
                 $.get('/api/maceracion/off', function(data){
-                    console.log(data);
                 });
                 $.get('/api/filtrado1/on', function(data){
-                    console.log(data);
                 });
-                console.log('termino hervido de maceracion');
-                console.log('comienza envio de maceracion a filtrado');
+                $('#nmaceracionContainer p').removeClass('bg-success').addClass('bg-info');
+                $('#nfiltradoContainer p').removeClass('bg-info').addClass('bg-success');
             }
         }
         //MACERACION (OFF)
 
         //PROCESO 2: PRIMER FILTRADO (ON)
 
-        //Se envia la maceracion al filtrado
+        //Se envia la maceracion al filtrado lauter
         if (enviar_maceracion === 1) {
             if (nmaceracion > 1.5) {
                 nfiltrado = nfiltrado + 0.8;
@@ -117,14 +120,21 @@ var interval = setInterval(function(){
                 //Terminó el primer filtrado
                 nfiltrado_activo = 0;
                 enviar_filtrado = 1;
+<<<<<<< HEAD
                 $('#nfiltradoContainer p').removeClass('bg-succes').addClass('bg-danger');
                 $('#nhervidoContainer p').removeClass('bg-info').addClass('bg-succes');
+=======
+
+>>>>>>> def5c25a308b52030858274d9eacae813c6240a5
                 $.get('/api/filtrado1/off', function(data){
                     console.log(data);
                 });
                 $.get('/api/hervido/on', function(data){
                     console.log(data);
                 });
+
+                $('#nfiltradoContainer p').removeClass('bg-success').addClass('bg-info');
+                $('#nlupuloContainer p').removeClass('bg-info').addClass('bg-success');
             }
         }
 
@@ -138,7 +148,11 @@ var interval = setInterval(function(){
                 nfiltrado = nfiltrado - 0.7;
                 nhervido = nhervido + 0.7;
                 $('#nfiltrado').css('width', (nfiltrado / 90 * 100) + '%');
+<<<<<<< HEAD
                 $('#nhervido').css('width', (nhervido / 90 * 100) + '%');
+=======
+                $('#nlupulo').css('width', (nhervido / 92 * 100) + '%');
+>>>>>>> def5c25a308b52030858274d9eacae813c6240a5
             } else {
                 //Termino el envió se activa el vertido de lúpulos
                 enviar_filtrado = 0;
@@ -151,9 +165,15 @@ var interval = setInterval(function(){
             if (nlupulo > 0.5){
                 nlupulo = nlupulo - 0.005;
                 nhervido = nhervido + 0.01;
+<<<<<<< HEAD
                 $('#nlupulo_max').css('width', (nlupulo / 90 * 100) + '%');
                 $('#nhervido').css('width', (nhervido / 90 * 100) + '%');
                 console.log(nlupulo);
+=======
+                $('#nlupulo').css('width', (nhervido / 92 * 100) + '%');
+                $('#nlupulo_max').css('width', (nlupulo / 2 * 100) + '%');
+
+>>>>>>> def5c25a308b52030858274d9eacae813c6240a5
             } else {
                 //se terminó de verter el lúpulo se hierve la mezcla
                 enviar_lupulos = 0;
@@ -166,9 +186,14 @@ var interval = setInterval(function(){
             if (nhervido_hervido > 0) {
                 nhervido_hervido = nhervido_hervido - 1;
                 nhervido = nhervido - (nhervido * 0.00035);
+<<<<<<< HEAD
                 $('#nhervido').css('width', (nhervido / 90 * 100) + '%');
+=======
+                $('#nlupulo').css('width', (nhervido / 92 * 100) + '%');
+>>>>>>> def5c25a308b52030858274d9eacae813c6240a5
             } else {
                 //Ya terminó de hervir
+                clearInterval(interval);
                 nhervido_activo = 0;
                 ncentrifugado_activo = 1;
                 $('#nhervidoContainer p').removeClass('bg-succes').addClass('bg-danger');
@@ -178,8 +203,17 @@ var interval = setInterval(function(){
                     console.log(data);
                 });
                 $.get('/api/centrifugado/on', function(data){
+<<<<<<< HEAD
                   console.log(data);
                 });
+=======
+                    console.log(data);
+                });
+
+                $('#nlupuloContainer p').removeClass('bg-success').addClass('bg-info');
+                $('#ncentrifugadoContainer p').removeClass('bg-info').addClass('bg-success');
+
+>>>>>>> def5c25a308b52030858274d9eacae813c6240a5
             }
         }
         if (ncentrifugado_activo === 1) {
@@ -212,6 +246,10 @@ var interval = setInterval(function(){
             }
 
         }
+
+
+
+        //VERTIDO DE LUPULOS (OFF)
 
 
 
