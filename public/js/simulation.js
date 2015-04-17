@@ -216,7 +216,7 @@ var interval = setInterval(function(){
 
 
     }
-},10);
+},100);
 
 
 
