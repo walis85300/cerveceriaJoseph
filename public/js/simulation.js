@@ -2,16 +2,18 @@ var enviar_agua = 1,
     enviar_malta = 1,
     enviar_maceracion = 0,
     enviar_filtrado = 0,
-    enviar_lupulos = 0;
+    enviar_lupulos = 0,
     enviar_centrifugado = 0,
-    enviar_levadura = 0,
-    enviar_enfriamiento = 0;
+    enviar_levadura = 0;
 
 var nmaceracion = 0,
     nfiltrado = 0,
-    nhervido = 0;
+    nhervido = 0,
     ncentrifugado = 0,
-    nenfriamiento = 0;
+    nenfriamiento = 0,
+    nfiltrado_final = 0,
+    ncerveza = 0,
+    nfermentacion_maduracion = 0;
 
 var terminoPrimerProceso = 1;
 
@@ -19,14 +21,20 @@ var encendido = 0,
     nmaceracion_activo = 0,
     nfiltrado_activo = 0,
     nhervido_activo = 0,
-    nenfriamiento_activo = 0;
+    nenfriamiento_activo = 0,
+    nfermentacion_maceracion_activo = 0,
+    ncerveza_activo = 0,
+    proceso_terminado = 0,
+    nfiltrado_final_activo = 0;
 
 var nmaceracion_hervido = 100,
     proceso_filtrar = 100,
-    nhervido_hervido = 100;
-    ncentrifugado_activo = 0;
+    nhervido_hervido = 100,
+    ncentrifugado_activo = 0,
     ncentri_eliminar_grano = 5,
-    proceso_enfriar = 100;
+    proceso_enfriar = 100,
+    proceso_fermentacion_maduracion = 13, //Para que el tiempo final sea una suma de ambos procesos
+    proceso_filtrado_final = 3;
 
 
 var interval = setInterval(function(){
@@ -187,21 +195,23 @@ var interval = setInterval(function(){
                 });
             }
         }
+        //Proceso 4: Centrifugado
         if (ncentrifugado_activo === 1) {
+          //Se traslada el centrifugado
             if (nhervido > 0) {
                 nhervido = nhervido - 0.7;
                 ncentrifugado = ncentrifugado + 0.7;
                 console.log(nhervido);
                 $('#nhervido').css('width', (nhervido / 90 * 100) + '%');
                 $('#ncentrifugado').css('width', (ncentrifugado / 90 * 100) + '%');
+             //Se extraen los granos
              }else if(ncentri_eliminar_grano > 0){
                 ncentrifugado = ncentrifugado - ncentrifugado *0.00035;
                 ncentri_eliminar_grano = ncentri_eliminar_grano - ncentrifugado *0.00035;
                 console.log(ncentri_eliminar_grano);
              }
-
+             //Se termina el proceso
             if(!(nhervido > 0) && !(ncentri_eliminar_grano > 0)){
-              console.log("HOLA");
               ncentrifugado_activo = 0;
               enviar_centrifugado = 1;
               $('#ncentrifugadoContainer p').removeClass('bg-success').addClass('bg-danger');
@@ -214,9 +224,11 @@ var interval = setInterval(function(){
               $.get('/api/enfriamiento/on', function(data){
                 console.log(data);
               });
+              console.log("Inicia el proceso de enfriamiento");
             }
 
         }
+        //Fin proceso 4
 
         //PROCESO 5: ENFRIAMIENTO
 
@@ -254,7 +266,7 @@ var interval = setInterval(function(){
                 proceso_enfriar = proceso_enfriar - 1;
             } else {
                 nenfriamiento_activo = 0;
-                enviar_enfriamiento = 1;
+                nfermentacion_maceracion_activo = 1;
 
                 $.get('/api/enfriamiento/off', function(data){
                     console.log(data);
@@ -264,15 +276,87 @@ var interval = setInterval(function(){
                 });
 
                 $('#nenfriamientoContainer p').removeClass('bg-success').addClass('bg-danger');
-                $('#nfermentacionContainer p').removeClass('bg-info').addClass('bg-success');
+                $('#nfermentacion_maduracionContainer p').removeClass('bg-info').addClass('bg-success');
 
-
+                console.log("Inicia el proceso de fermentación y maduración");
             }
         }
 
         //ENFRIAMIENTO (OFF)
+        //Proceso de fermentación y maduración
+        //Asumo que entra a un proceso mas pequeño en donde se hacen ambos
+        if (nfermentacion_maceracion_activo === 1) {
+          if (nenfriamiento > 0) {
+            nenfriamiento = nenfriamiento - 0.7;
+            nfermentacion_maduracion = nfermentacion_maduracion + 0.7;
 
+            $('#nenfriamiento').css('width', (nenfriamiento / 90 * 100) + '%');
+            $('#nfermentacion_maduracion').css('width', (nfermentacion_maduracion / 90 * 100) + '%');
+          }else if(proceso_fermentacion_maduracion > 0){
+            proceso_fermentacion_maduracion = proceso_fermentacion_maduracion - nfermentacion_maduracion *0.00030; //Para que el tiempo final sea una suma de ambos procesos
+          }
+          //Finalizan ambos procesos
+          if(!(ncentrifugado > 0) && !(proceso_fermentacion_maduracion > 0)){
 
+            nfermentacion_maceracion_activo = 0;
+            nfiltrado_final_activo = 1;
+            $('#nfermentacion_maduracionContainer p').removeClass('bg-success').addClass('bg-danger');
+            $('#nfiltradoFinalContainer p').removeClass('bg-info').addClass('bg-success');
+
+            $.get('/api/enfriamiento/off', function(data){
+              console.log(data);
+            });
+            $.get('/api/filtrado2/on', function(data){
+              console.log(data);
+            });
+            console.log("Inicia el proceso de filtrado final");
+          }
+        }
+        //Fin proceso de fermentación y maduración
+
+        //Proceso de filtrado final
+
+        if (nfiltrado_final_activo === 1) {
+          if (nfermentacion_maduracion > 0) {
+            nfermentacion_maduracion = nfermentacion_maduracion - 0.7;
+            nfiltrado_final = nfiltrado_final + 0.7;
+
+            $('#nfiltrado_final').css('width', (nfiltrado_final / 90 * 100) + '%');
+            $('#nfermentacion_maduracion').css('width', (nfermentacion_maduracion / 90 * 100) + '%');
+          }else if(proceso_filtrado_final > 0){
+            //Proceso de eliminación de los granos finales
+            proceso_filtrado_final = proceso_filtrado_final - nfiltrado_final *0.00015;
+          }
+          //Finaliza el proceso de eliminación de los granos
+          if(!(nfermentacion_maduracion > 0) && !(proceso_filtrado_final > 0)){
+
+            nfiltrado_final_activo = 0;
+            ncerveza_activo = 1;
+            proceso_terminado = 1;
+            $('#ncervezaContainer p').removeClass('bg-info').addClass('bg-success');
+            $('#nfiltradoFinalContainer p').removeClass('bg-success').addClass('bg-danger');
+
+            $.get('/api/filtrado2/off', function(data){
+              console.log(data);
+            });
+            $.get('/api/all/on', function(data){
+              console.log(data);
+            });
+            console.log("Ha acabado el proceso");
+          }
+        }
+        //Fin proceso de filtrado final
+
+        //Proceso de traslado a último tanque
+        if (nfiltrado_final > 0 && ncerveza_activo === 1) {
+          nfiltrado_final = nfiltrado_final - 0.7;
+          ncerveza = ncerveza + 0.7;
+          $('#nfiltrado_final').css('width', (nfiltrado_final / 90 * 100) + '%');
+          $('#ncerveza').css('width', (ncerveza / 90 * 100) + '%');
+        }else if(proceso_terminado === 1){
+          clearInterval(interval);
+        }
+        //Fin proceso de proceso de traslado
 
     }
 },50);
