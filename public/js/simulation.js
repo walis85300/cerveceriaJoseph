@@ -3,25 +3,30 @@ var enviar_agua = 1,
     enviar_maceracion = 0,
     enviar_filtrado = 0,
     enviar_lupulos = 0;
-    enviar_centrifugado = 0;
+    enviar_centrifugado = 0,
+    enviar_levadura = 0,
+    enviar_enfriamiento = 0;
 
 var nmaceracion = 0,
     nfiltrado = 0,
     nhervido = 0;
-    ncentrifugado = 0;
+    ncentrifugado = 0,
+    nenfriamiento = 0;
 
 var terminoPrimerProceso = 1;
 
 var encendido = 0,
     nmaceracion_activo = 0,
     nfiltrado_activo = 0,
-    nhervido_activo = 0;
+    nhervido_activo = 0,
+    nenfriamiento_activo = 0;
 
 var nmaceracion_hervido = 100,
     proceso_filtrar = 100,
     nhervido_hervido = 100;
     ncentrifugado_activo = 0;
-    ncentri_eliminar_grano = 10;
+    ncentri_eliminar_grano = 5,
+    proceso_enfriar = 100;
 
 
 var interval = setInterval(function(){
@@ -198,7 +203,7 @@ var interval = setInterval(function(){
             if(!(nhervido > 0) && !(ncentri_eliminar_grano > 0)){
               console.log("HOLA");
               ncentrifugado_activo = 0;
-
+              enviar_centrifugado = 1;
               $('#ncentrifugadoContainer p').removeClass('bg-success').addClass('bg-danger');
               $('#nenfriamientoContainer p').removeClass('bg-info').addClass('bg-success');
 
@@ -213,10 +218,64 @@ var interval = setInterval(function(){
 
         }
 
+        //PROCESO 5: ENFRIAMIENTO
+
+        //se traslada el centrifugado
+        if (enviar_centrifugado === 1) {
+            if (ncentrifugado > 0.3) {
+                nenfriamiento = nenfriamiento + 0.7;
+                ncentrifugado = ncentrifugado - 0.7;
+                $('#ncentrifugado').css('width', (ncentrifugado / 90 * 100) + '%');
+                $('#nenfriamiento').css('width', (nenfriamiento / 93 * 100) + '%');
+
+            } else {
+                enviar_centrifugado = 0;
+                enviar_levadura = 1;
+            }
+        }
+
+        //se vierte la levadura
+        if (enviar_levadura === 1) {
+            if (nlevadura > 0.02) {
+                nlevadura = nlevadura - 0.02;
+                nenfriamiento = nenfriamiento + 0.02;
+                $('#nenfriamiento').css('width', (nenfriamiento / 93 * 100) + '%');
+                $('#nlevadura_max').css('width', (nlevadura / 3 * 100) + '%');
+
+            } else {
+                enviar_levadura = 0;
+                nenfriamiento_activo = 1;
+            }
+        }
+
+        //Se empieza con el enfriamiento
+        if (nenfriamiento_activo === 1) {
+            if (proceso_enfriar > 0) {
+                proceso_enfriar = proceso_enfriar - 1;
+            } else {
+                nenfriamiento_activo = 0;
+                enviar_enfriamiento = 1;
+
+                $.get('/api/enfriamiento/off', function(data){
+                    console.log(data);
+                });
+                $.get('/api/ferme_madu/on', function(data){
+                    console.log(data);
+                });
+
+                $('#nenfriamientoContainer p').removeClass('bg-success').addClass('bg-danger');
+                $('#nfermentacionContainer p').removeClass('bg-info').addClass('bg-success');
+
+
+            }
+        }
+
+        //ENFRIAMIENTO (OFF)
+
 
 
     }
-},100);
+},50);
 
 
 
