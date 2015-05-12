@@ -17,7 +17,7 @@ var nmaceracion = 0,
 
 var terminoPrimerProceso = 1;
 
-var encendido = 0,
+var prendido = 0,
     nmaceracion_activo = 0,
     nfiltrado_activo = 0,
     nhervido_activo = 0,
@@ -39,7 +39,7 @@ var nmaceracion_hervido = 100,
 
 var interval = setInterval(function(){
 
-    if (encendido === 1){
+    if (prendido === 1){
 
         //PROCESO 1: MACERACION (ON){
 
@@ -381,5 +381,5 @@ $('#iniciar').on('click', function(){
     $(this).addClass('disabled');
     $.get('/api/maceracion/on');
     $('#nmaceracionContainer p').removeClass('bg-info').addClass('bg-success');
-    encendido = 1;
+    prendido = 1;
 });

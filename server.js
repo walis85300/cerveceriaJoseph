@@ -7,10 +7,8 @@ var handlebars = require('express-handlebars')
 
 app.use(express.static(__dirname + '/public'));
 
-require('./expressHandlers/setters.js')(app, handlebars);
-require('./expressHandlers/handlingRoutes.js')(app);
-
+require('./expressHandlers')(app, handlebars);
 
 app.listen(app.get('port'), function(){
-    console.log('Express started on http://localhost:'+app.get('port'));
+    console.log(`Express started on http://localhost:${app.get('port')}`);
 });
